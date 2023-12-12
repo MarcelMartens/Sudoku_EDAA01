@@ -24,6 +24,11 @@ public class SudokuGUI extends JFrame {
         initUI();
     }
 
+    public static void main(String[] args) {
+        SudokuSolver solver = new Solver();
+        new SudokuGUI(solver);
+    }
+
     private void initUI() {
         setTitle("Sudoku Solver");
         setSize(500, 500);
@@ -110,11 +115,6 @@ public class SudokuGUI extends JFrame {
                 grid[row][col].setText("");
             }
         }
-    }
-
-    public static void main(String[] args) {
-        SudokuSolver solver = new Solver();
-        new SudokuGUI(solver);
     }
 
     private class FontSizeAdjuster extends ComponentAdapter {

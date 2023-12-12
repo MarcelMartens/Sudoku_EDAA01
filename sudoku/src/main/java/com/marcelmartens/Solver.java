@@ -10,7 +10,8 @@ public class Solver implements SudokuSolver {
     @Override
     public boolean solve() {
         if (!isAllValid()) {
-            throw new IllegalArgumentException("inputted digits are not valid");
+            // todo tell user what grid(s) are wrong
+            throw new IllegalArgumentException("Current grid is unsolvable!");
         }
         return solveRecursive(0, 0);
     }
@@ -59,6 +60,19 @@ public class Solver implements SudokuSolver {
     }
 
     @Override
+    public void setGrid(int[][] m) {
+        if (m.length != 9 || m[0].length != 9) {
+            throw new IllegalArgumentException("Grid must be 9x9");
+        }
+        this.grid = m;
+    }
+
+    @Override
+    public int[][] getGrid() {
+        return grid;
+    }
+
+    @Override
     public void clear(int row, int col) {
         validatePosition(row, col);
         grid[row][col] = 0;
@@ -83,10 +97,14 @@ public class Solver implements SudokuSolver {
         return false;
     }
 
+    // change Defaulting to returning true is maybe not the best practice :)
+    /// Need to change solver() and recursiveSolver()
     @Override
     public boolean isAllValid() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                validatePosition(i, j);
+                validateDigit(grid[i][j]);
                 if (!isValidPlacement(i, j, grid[i][j])) {
                     return false;
                 }
@@ -95,21 +113,9 @@ public class Solver implements SudokuSolver {
         return true;
     }
 
+    // change move check for 0 here if smaller methods are not used
     private boolean isValidPlacement(int row, int col, int digit) {
         return (!isInRow(row, col, digit) && !isInCol(row, col, digit) && !isInBox(row, col, digit));
-    }
-
-    @Override
-    public void setGrid(int[][] m) {
-        if (m.length != 9 || m[0].length != 9) {
-            throw new IllegalArgumentException("Grid must be 9x9");
-        }
-        this.grid = m;
-    }
-
-    @Override
-    public int[][] getGrid() {
-        return grid;
     }
 
     private boolean isInRow(int row, int col, int digit) {

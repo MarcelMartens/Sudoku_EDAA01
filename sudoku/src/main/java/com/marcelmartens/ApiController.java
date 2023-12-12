@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import com.fasterxml.jackson.databind.*;
 
+@Deprecated
 public class ApiController {
     private int[][] grid;
     // used for testing so i dont use to many api calls
